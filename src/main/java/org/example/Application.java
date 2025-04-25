@@ -18,7 +18,6 @@ public class Application {
 
         JTextArea textArea1 = new JTextArea();
         textArea1.setForeground(Color.BLACK);
-        textArea1.setBounds(50, 30, textAreaWidth, textAreaHeight);
         textArea1.setLineWrap(true);
 
         JScrollPane scrollPane1 = new JScrollPane(textArea1);
@@ -27,7 +26,6 @@ public class Application {
 
         JTextArea textArea2 = new JTextArea();
         textArea2.setForeground(Color.BLACK);
-        textArea2.setBounds(50, 140, textAreaWidth, textAreaHeight);
         textArea2.setEditable(false);
         textArea2.setLineWrap(true);
 
