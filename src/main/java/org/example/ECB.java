@@ -10,7 +10,7 @@ public class ECB {
     }
 
     private void keyGeneration() {
-        key = LinearCongruentialGenerator.randomNumber(true);
+        key = LinearCongruentialGenerator.randomNumber(false);
         System.out.println("key: " + key);
     }
 
