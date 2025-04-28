@@ -9,10 +9,10 @@ public class LinearCongruentialGenerator {
 
     /// `shouldBePrime` is used to generate either prime or non-prime number.
     public static long randomNumber(boolean shouldBePrime) {
-        long multiplier = 15L;
-        long x0 = System.currentTimeMillis() % 10_000;
-        long increment = 1L;
-        long modulus = 10_000L;
+        long multiplier = 15L; // a
+        long x0 = System.currentTimeMillis() % 10_000; // seed
+        long increment = 1L; // c
+        long modulus = 10_000L; // m
         long tries = 1;
         while (true) {
             if (tries == modulus) {
