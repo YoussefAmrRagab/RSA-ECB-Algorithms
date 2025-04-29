@@ -11,7 +11,7 @@ public class RSA {
     private BigInteger privateKey; // for decryption
     private BigInteger modulus;
 
-    public RSA() {
+    RSA() {
         keyGeneration();
     }
 
