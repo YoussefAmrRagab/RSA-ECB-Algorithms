@@ -2,6 +2,8 @@ package org.example;
 
 import java.util.List;
 
+import static org.example.Utils.*;
+
 public class ECB {
     private String key;
 
@@ -11,15 +13,15 @@ public class ECB {
 
     private void keyGeneration() {
         int key = (int) LinearCongruentialGenerator.randomNumber(false) % 128;
-        this.key = toBinary(key);
-        System.out.println("key: " + key + " binary: " + this.key);
+        this.key = toBinary(key + "", 8, 10);
+        System.out.println("ECB key: " + key + " -> binary: " + this.key);
     }
 
     public String encrypt(String plainText) {
         String cipherText = "";
         List<Integer> ascii = Utils.textToAscii(plainText);
         for (Integer code : ascii) {
-            String binary = toBinary(code);
+            String binary = toBinary(code + "", 8, 10);
             String cipher = XOR(binary, key);
             cipherText += cipher + " ";
         }
@@ -36,18 +38,5 @@ public class ECB {
             plainText += plain;
         }
         return plainText;
-    }
-
-    private String toBinary(int num) {
-        String binaryNumber = Integer.toBinaryString(num);
-        return String.format("%8s", binaryNumber).replace(" ", "0");
-    }
-
-    private String XOR(String s1, String s2) {
-        String result = "";
-        for (int i = 0; i < s1.length(); i++) {
-            result += s1.charAt(i) == s2.charAt(i) ? '0' : '1';
-        }
-        return result;
     }
 }

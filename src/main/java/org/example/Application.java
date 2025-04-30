@@ -9,6 +9,7 @@ public class Application {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         RSA rsa = new RSA();
         ECB ecb = new ECB();
+        SHA1 sha1 = new SHA1();
 
         int textAreaWidth = 300;
         int textAreaHeight = 100;
@@ -34,25 +35,42 @@ public class Application {
         panel.add(scrollPane2);
 
         JCheckBox rsaCheckBox = new JCheckBox("RSA Algorithm");
-        rsaCheckBox.setBounds(50, 240, 150, 30);
+        rsaCheckBox.setBounds(50, 250, 150, 30);
         panel.add(rsaCheckBox);
 
         JCheckBox ecbCheckBox = new JCheckBox("ECB Algorithm");
-        ecbCheckBox.setBounds(50, 260, 150, 30);
+        ecbCheckBox.setBounds(50, 280, 150, 30);
         panel.add(ecbCheckBox);
 
+        JCheckBox sha1CheckBox = new JCheckBox("SHA-1 Algorithm");
+        sha1CheckBox.setBounds(50, 310, 150, 30);
+        panel.add(sha1CheckBox);
+
         rsaCheckBox.addItemListener(e -> {
-            if (rsaCheckBox.isSelected()) ecbCheckBox.setSelected(false);
+            if (rsaCheckBox.isSelected()) {
+                ecbCheckBox.setSelected(false);
+                sha1CheckBox.setSelected(false);
+            }
         });
 
         ecbCheckBox.addItemListener(e -> {
-            if (ecbCheckBox.isSelected()) rsaCheckBox.setSelected(false);
+            if (ecbCheckBox.isSelected()) {
+                rsaCheckBox.setSelected(false);
+                sha1CheckBox.setSelected(false);
+            }
+        });
+
+        sha1CheckBox.addItemListener(e -> {
+            if (sha1CheckBox.isSelected()) {
+                rsaCheckBox.setSelected(false);
+                ecbCheckBox.setSelected(false);
+            }
         });
 
         JButton encryptButton = new JButton("Encrypt");
         encryptButton.setBounds(360, 30, 100, 30);
         encryptButton.addActionListener(e -> {
-            if (!rsaCheckBox.isSelected() && !ecbCheckBox.isSelected()) {
+            if (!rsaCheckBox.isSelected() && !ecbCheckBox.isSelected() && !sha1CheckBox.isSelected()) {
                 JOptionPane.showMessageDialog(frame, "Please select an encryption algorithm.");
                 return;
             }
@@ -64,6 +82,9 @@ public class Application {
             } else if (ecbCheckBox.isSelected()) {
                 String cipherText = ecb.encrypt(plainText);
                 textArea2.setText(cipherText);
+            } else if (sha1CheckBox.isSelected()) {
+                String cipherText = sha1.hash(plainText);
+                textArea2.setText(cipherText);
             }
         });
         panel.add(encryptButton);
@@ -71,6 +92,11 @@ public class Application {
         JButton decryptButton = new JButton("Decrypt");
         decryptButton.setBounds(360, 70, 100, 30);
         decryptButton.addActionListener(e -> {
+            if (sha1CheckBox.isSelected()) {
+                JOptionPane.showMessageDialog(frame, "SHA-1 does not support decryption.");
+                return;
+            }
+
             if (!rsaCheckBox.isSelected() && !ecbCheckBox.isSelected()) {
                 JOptionPane.showMessageDialog(frame, "Please select an decryption algorithm.");
                 return;
@@ -87,6 +113,8 @@ public class Application {
                 }
             } catch (NumberFormatException error) {
                 JOptionPane.showMessageDialog(frame, "Invalid input, cipher text must be integers only.");
+            } catch (Exception error) {
+                JOptionPane.showMessageDialog(frame, "Invalid input.");
             }
         });
         panel.add(decryptButton);
